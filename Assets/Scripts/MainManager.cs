@@ -11,6 +11,7 @@ public class MainManager : MonoBehaviour
     public Rigidbody Ball;
 
     public Text ScoreText;
+    public Text BestScoreText;
     public GameObject GameOverText;
     
     private bool m_Started = false;
@@ -18,10 +19,20 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
+
+
     
     // Start is called before the first frame update
     void Start()
     {
+
+        string name = MenuScript.Instance.nameEntered;
+
+        if(BestScoreText != null)
+        {
+            BestScoreText.text = $"Best Score : {name} : 0";
+        }
+
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
