@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.UI;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -14,8 +15,21 @@ public class MenuScript : MonoBehaviour
     public static MenuScript Instance;
 
     public TMP_InputField playerName;
+    public Text highScoreText;
 
     public string nameEntered = "Player";
+
+    private void Start()
+    {
+        int bestScore = PlayerPrefs.GetInt("HighScore", 0);
+        string bestName = PlayerPrefs.GetString("HighScoreName", "None");
+
+        if (highScoreText != null)
+        {
+            highScoreText.text = $"High Score : {bestName} : {bestScore}";
+        }
+            
+    }
 
     private void Awake()
     {
@@ -34,6 +48,22 @@ public class MenuScript : MonoBehaviour
         nameEntered = nameTyped;
 
         SceneManager.LoadScene(1);
+    }
+
+    public void ResetHighScore()
+    {
+        PlayerPrefs.DeleteKey("HighScore");
+        PlayerPrefs.DeleteKey("HighScoreName");
+        PlayerPrefs.Save();
+
+        int bestScore = PlayerPrefs.GetInt("HighScore", 0);
+        string bestName = PlayerPrefs.GetString("HighScoreName", "None");
+
+        if (highScoreText != null)
+        {
+            highScoreText.text = $"High Score : {bestName} : {bestScore}";
+        }
+
     }
 
     public void Exit()
